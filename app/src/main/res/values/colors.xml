@@ -1,0 +1,22 @@
+<resources>
+    <!-- Основные цвета -->
+    <color name="blue_500">#2196F3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Дополнительные цвета -->
+    <color name="blue_700">#1976D2</color>
+    <color name="gray_light">#E0E0E0</color>
+
+    <!-- Текстовые цвета -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+
+
+    <color name="tikva">#D55448</color>
+    <color name="dinya">#FFA577</color>
+    <color name="hlopok">#F9F9FF</color>
+    <color name="goryachiychokolat">#896E69</color>
+
+
+</resources>

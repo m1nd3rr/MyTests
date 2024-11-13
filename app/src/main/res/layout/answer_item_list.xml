@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_question"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:padding="15dp"
+    android:id="@+id/answer_item_list">
+
+    <TextView
+        android:id="@+id/answer_item"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/background_number"
+        android:layout_margin="8dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/answer_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ответ"
+        android:paddingHorizontal="10dp" />
+
+</LinearLayout>

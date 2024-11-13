@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="#F5F5F5">
+
+    <EditText
+        android:id="@+id/dialog_answer_editText"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:background="@drawable/edit_text_background"
+        android:padding="8dp"
+        android:textColor="#000"
+        android:hint="Enter answer" />
+
+    <Spinner
+        android:id="@+id/dialog_answer_sort_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/spinner_background"
+        android:padding="8dp"
+        android:spinnerMode="dropdown" />
+
+</LinearLayout>
