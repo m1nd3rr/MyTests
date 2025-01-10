@@ -1,5 +1,6 @@
 package com.example.mytest;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,11 +9,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Pair;
+import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +26,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mytest.auth.Authentication;
 import com.example.mytest.auth.Select;
+import com.example.mytest.model.Student;
+import com.example.mytest.model.Teacher;
 import com.example.mytest.model.Test;
 import com.example.mytest.repository.ResultRepository;
 import com.example.mytest.repository.RoomRepository;
@@ -37,7 +43,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import android.Manifest;
@@ -63,7 +68,10 @@ public class StudentProfileActivity extends AppCompatActivity {
         setCreateTestUser();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
+        TextView textView = findViewById(R.id.userName); // инициализация
+        TextView textView1 = findViewById(R.id.userGroup);
+        textView1.setText(Authentication.getStudent().getGroupNumber());
+        textView.setText(Authentication.getStudent().getFirstName());
         ImageView photoUser = findViewById(R.id.profile_image);
         if (Authentication.getStudent().getPhoto() != null) {
             Glide.with(this).load(Authentication.getStudent().getPhoto()).apply(new RequestOptions()
@@ -89,7 +97,6 @@ public class StudentProfileActivity extends AppCompatActivity {
                 .thenAccept(pair -> {
                     createPieDiagram(pair);
                 });
-
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -119,40 +126,37 @@ public class StudentProfileActivity extends AppCompatActivity {
 
     public void createPieDiagram(Pair<Integer, Integer> pair) {
         PieChart pieChart = findViewById(R.id.pieChart);
-
-        // Данные для диаграммы
-        int correctAnswers = pair.first;  // Количество правильных ответов
-        int totalQuestions = pair.second; // Общее количество вопросов
+        int correctAnswers = pair.first;
+        int totalQuestions = pair.second;
 
         float percentageCorrect = (correctAnswers / (float) totalQuestions) * 100;
         float percentageIncorrect = 100 - percentageCorrect;
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(percentageCorrect, "")); // Процент правильных
-        entries.add(new PieEntry(percentageIncorrect, "")); // Остаток для заполнения
+        entries.add(new PieEntry(percentageCorrect, ""));
+        entries.add(new PieEntry(percentageIncorrect, ""));
 
         PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setColors(Color.WHITE, Color.LTGRAY); // Цвет правильных и серый для пустого места
-        dataSet.setValueTextSize(0f);  // Убираем подписи значений на секторах
+        dataSet.setColors(Color.WHITE, Color.LTGRAY);
+        dataSet.setValueTextSize(0f);
 
         PieData data = new PieData(dataSet);
 
         pieChart.setData(data);
-        pieChart.setUsePercentValues(true);  // Процентное отображение
-        pieChart.getDescription().setEnabled(false);  // Убираем описание
-        pieChart.getLegend().setEnabled(false);  // Убираем легенду
-        pieChart.setRotationEnabled(false);  // Запрещаем вращение
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.setRotationEnabled(false);
 
-        pieChart.setHoleRadius(90f);  // Радиус центральной "дырки"
+        pieChart.setHoleRadius(90f);
         pieChart.setHoleColor(Color.TRANSPARENT);
 
-        // Установить процент правильных ответов в центре
         pieChart.setCenterText(Math.round(percentageCorrect) + "%");
         pieChart.setCenterTextSize(24f);
         pieChart.setCenterTextColor(Color.BLACK);
 
-        pieChart.animateY(1000);  // Анимация
-        pieChart.invalidate(); // Обновление диаграммы
+        pieChart.animateY(1000);
+        pieChart.invalidate();
     }
 
 
@@ -211,6 +215,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
 
     public void CreateTest(View view) {
+
         Test test = new Test();
         test.setStudentId(Authentication.getStudent().getId());
         Intent intent = new Intent(this, CreateTestActivity.class);
@@ -254,5 +259,99 @@ public class StudentProfileActivity extends AppCompatActivity {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             openGallery();
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void ClickEditStudent(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_student, null);
+        builder.setView(dialogView);
+
+        EditText editFirstName = dialogView.findViewById(R.id.editFirstName);
+        EditText editLastName = dialogView.findViewById(R.id.editLastName);
+        EditText editGroupNumber = dialogView.findViewById(R.id.editTextGroupNumber);
+        EditText editPassword = dialogView.findViewById(R.id.editPassword);
+        EditText editEmail = dialogView.findViewById(R.id.editEmail);
+
+        Student currentStudent = Authentication.getStudent();
+        editFirstName.setText(currentStudent.getFirstName());
+        editLastName.setText(currentStudent.getLastName());
+        editGroupNumber.setText(currentStudent.getGroupNumber());
+        editPassword.setText(currentStudent.getPassword());
+        editEmail.setText(currentStudent.getEmail());
+
+        editPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (editPassword.getRight() - editPassword.getCompoundDrawables()[2].getBounds().width())) {
+                    if (editPassword.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                        editPassword.setTransformationMethod(null);
+                        editPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_off_24, 0);
+                    } else {
+                        editPassword.setTransformationMethod(new PasswordTransformationMethod());
+                        editPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_24, 0);
+                    }
+                    editPassword.setSelection(editPassword.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        builder.setTitle("Редактировать данные")
+                .setPositiveButton("Сохранить", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String firstName = editFirstName.getText().toString().trim();
+            String lastName = editLastName.getText().toString().trim();
+            String groupNumber = editGroupNumber.getText().toString().trim();
+            String password = editPassword.getText().toString().trim();
+            String email = editEmail.getText().toString().trim();
+
+            if (firstName.isEmpty() || lastName.isEmpty() || groupNumber.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                Toast.makeText(this, "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Введите корректный email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            currentStudent.setFirstName(firstName);
+            currentStudent.setLastName(lastName);
+            currentStudent.setGroupNumber(groupNumber);
+            currentStudent.setPassword(password);
+            currentStudent.setEmail(email);
+
+            studentRepository.updateStudent(currentStudent);
+
+            TextView userName = findViewById(R.id.userName);
+            userName.setText(currentStudent.getFirstName());
+            dialog.dismiss();
+        });
+    }
+
+    public void onBack(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void ClickShowCreateTest(View view) {
+      Intent intent = new Intent(this,TestHistory.class);
+      intent.putExtra("button", "create");
+      startActivity(intent);
+      finish();
+    }
+
+    public void ClickShowCompleteTest(View view) {
+        Intent intent = new Intent(this,TestHistory.class);
+        intent.putExtra("button", "complete");
+        startActivity(intent);
+        finish();
     }
 }

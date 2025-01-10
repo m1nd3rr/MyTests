@@ -6,15 +6,18 @@ public class Teacher {
     private String password;
     private String email;
     private String id;
+    private String photo;
 
     public Teacher() {
     }
 
-    public Teacher(String firstName, String lastName, String password, String email) {
+    public Teacher(String id, String firstName,String lastName, String password, String email,  String photo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
+        this.id = id;
+        this.photo = photo;
     }
 
     public String getFirstName() {
@@ -54,5 +57,13 @@ public class Teacher {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

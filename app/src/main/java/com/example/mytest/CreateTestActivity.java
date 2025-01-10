@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.example.mytest.model.Test;
 import com.example.mytest.repository.QuestionRepository;
 import com.example.mytest.repository.RoomRepository;
 import com.example.mytest.repository.TestRepository;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -40,20 +43,39 @@ public class CreateTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_test);
-
         test = Select.getTest();
 
-        if (Authentication.getStudent() != null) {
+
+        if (Authentication.getStudent() == null ) {
+            findViewById(R.id.btnPublishTest).setVisibility(View.VISIBLE);
+        } else {
             findViewById(R.id.btnPublishTest).setVisibility(View.GONE);
         }
-
         questionRepository = new QuestionRepository(FirebaseFirestore.getInstance());
         roomRepository = new RoomRepository(FirebaseFirestore.getInstance());
         testRepository = new TestRepository(FirebaseFirestore.getInstance());
         RecyclerView recyclerView = findViewById(R.id.rvQuestionsList);
         editText = findViewById(R.id.etTestTitle);
 
+
         editText.setText(test.getTitle());
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                test.setTitle(String.valueOf(s));
+                testRepository.updateTest(test);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         questionRepository.getAllQuestionByTestId(test.getId())
                 .thenAccept(list -> {
@@ -69,13 +91,12 @@ public class CreateTestActivity extends AppCompatActivity {
             question.setTestId(test.getId());
 
             Intent intentQuestion = new Intent(CreateTestActivity.this, QuestionSettingActivity.class);
-            Select.setQuestion(questionRepository.addQuestion(question));
+            Select.setQuestion(question);
             startActivity(intentQuestion);
             finish();
         });
 
         findViewById(R.id.btnCreateTest).setOnClickListener(view -> {
-            editText = findViewById(R.id.etTestTitle);
             test.setTitle(editText.getText().toString());
             testRepository.updateTest(test);
 
@@ -107,4 +128,6 @@ public class CreateTestActivity extends AppCompatActivity {
         roomRepository.addRoom(room);
         Toast.makeText(this, room.getRoomNumber(), Toast.LENGTH_LONG).show();
     }
+
+
 }

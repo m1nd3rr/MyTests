@@ -48,6 +48,7 @@ public class QuestionRepository {
     public CompletableFuture<List<Question>> getAllQuestionByTestId(String id) {
         CompletableFuture<List<Question>> future = new CompletableFuture<>();
         List<Question> questionList = new ArrayList<>();
+        questionList.clear();
 
         questionCollection.whereEqualTo("testId", id).get().addOnCompleteListener(task -> {
             for (QueryDocumentSnapshot document : task.getResult()) {

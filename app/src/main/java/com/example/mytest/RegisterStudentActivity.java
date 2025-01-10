@@ -1,7 +1,12 @@
 package com.example.mytest;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +23,9 @@ public class RegisterStudentActivity extends AppCompatActivity {
 
     private EditText editTextFirstName, editTextLastName, editTextGroupNumber, editTextEmail, editTextPassword;
     private StudentRepository studentRepository;
+    private boolean isPasswordVisible = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,17 @@ public class RegisterStudentActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         Button buttonRegister = findViewById(R.id.buttonRegister);
 
+        editTextPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (editTextPassword.getRight() - editTextPassword.getCompoundDrawables()[2].getBounds().width())) {
+                    togglePasswordVisibility();
+                    v.performClick();
+                    return true;
+                }
+            }
+            return false;
+        });
+
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,30 +60,76 @@ public class RegisterStudentActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
-                if (!firstName.isEmpty() && !lastName.isEmpty() && !groupNumber.isEmpty() &&
-                        !email.isEmpty() && !password.isEmpty()) {
-
+                if (validateInput(firstName, lastName, groupNumber, email, password)) {
                     studentRepository.getStudentByEmail(email)
                             .thenAccept(find_student -> {
-                                if(find_student == null){
+                                if (find_student == null) {
+                                    Authentication.setTeacher(null);
+                                    Authentication.setAdmin(null);
                                     Student student = new Student(null, firstName, lastName, groupNumber, password, email, null);
                                     studentRepository.addStudent(student);
                                     Authentication.setStudent(student);
                                     Intent intent = new Intent(RegisterStudentActivity.this, StudentProfileActivity.class);
                                     startActivity(intent);
                                     finish();
-                                } else Toast.makeText(RegisterStudentActivity.this, "Такой студент уже есть", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    runOnUiThread(() ->
+                                            Toast.makeText(RegisterStudentActivity.this, "Такой студент уже есть", Toast.LENGTH_SHORT).show());
+                                }
                             });
-                } else {
-                    Toast.makeText(RegisterStudentActivity.this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private boolean validateInput(String firstName, String lastName, String groupNumber, String email, String password) {
+        if (firstName.isEmpty() || lastName.isEmpty() || groupNumber.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Введите корректный адрес электронной почты", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(this, "Пароль должен содержать минимум 6 символов", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (firstName.length() < 3 || firstName.length() > 20) {
+            Toast.makeText(this, "Имя должно содержать от 3 до 20 символов", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (lastName.length() < 3 || lastName.length() > 20) {
+            Toast.makeText(this, "Фамилия должна содержать от 3 до 20 символов", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void togglePasswordVisibility() {
+        Typeface currentTypeface = editTextPassword.getTypeface();
+        int selection = editTextPassword.getSelectionEnd();
+
+        if (isPasswordVisible) {
+            editTextPassword.setTransformationMethod(new PasswordTransformationMethod());
+            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_24, 0);
+        } else {
+            editTextPassword.setTransformationMethod(null);
+            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_off_24, 0);
+        }
+
+        isPasswordVisible = !isPasswordVisible;
+        editTextPassword.setTypeface(currentTypeface);
+        editTextPassword.setSelection(selection);
+    }
 
     public void ClickOnLoginPageStudent(View view) {
-        Intent intent = new Intent(RegisterStudentActivity.this,LoginStudentActivity.class);
+        Intent intent = new Intent(RegisterStudentActivity.this, LoginStudentActivity.class);
         startActivity(intent);
         finish();
     }

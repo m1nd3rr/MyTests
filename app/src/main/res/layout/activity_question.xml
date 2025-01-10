@@ -50,7 +50,7 @@
             android:layout_marginEnd="20dp" />
 
         <Button
-            android:backgroundTint="#3899E6"
+            android:backgroundTint="#3C599E"
             android:id="@+id/btnSaveTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             app:layout_constraintVertical_bias="0.03" />
 
         <Button
-            android:backgroundTint="#3899E6"
+            android:backgroundTint="#3C599E"
             android:id="@+id/btnCreateQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#EDDBAE"
+    android:background="#EFE9E9"
     tools:context=".StudentProfileActivity">
 
     <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Владос Красава"
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:layout_toEndOf="@id/profile_image"
                 android:layout_marginStart="16dp"
@@ -47,19 +47,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="68 МС"
-                android:textColor="#666"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:layout_below="@id/userName"
                 android:layout_toEndOf="@id/profile_image"
                 android:layout_marginStart="16dp" />
 
             <ImageView
+                android:onClick="ClickEditStudent"
                 android:id="@+id/notificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline_edit_24"
                 android:layout_alignParentEnd="true"
-
+                />
+            <ImageButton
+                android:id="@+id/buttonBack"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Назад"
+                android:onClick="onBack"
+                android:src="@drawable/logout"
+                android:layout_marginLeft="330dp"
+                android:layout_marginTop="20dp"
                 />
         </RelativeLayout>
 
@@ -78,10 +89,11 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:onClick="ClickShowCompleteTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/goryachiychokolat"
+                android:background="#BDB7B7"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp">
 
@@ -114,11 +126,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:onClick="ClickShowCreateTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="12dp"
-                android:background="@color/goryachiychokolat"
+                android:background="#BDB7B7"
                 android:layout_marginBottom="8dp">
 
                 <ImageView
@@ -149,7 +162,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,7 +177,6 @@
             android:layout_height="220dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/backgrounddiagrama"
             android:layout_marginHorizontal="80dp">
 
             <com.github.mikephil.charting.charts.PieChart
@@ -179,7 +190,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
                 android:text="Процент правильных ответов"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginBottom="20dp"
                 android:layout_marginHorizontal="10dp"
                 android:gravity="center"/>
@@ -196,7 +207,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/dinya"
+                android:backgroundTint="#3C599E"
                 android:text="Присоединиться к тесту"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
@@ -211,7 +222,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/dinya"
+                android:backgroundTint="#3C599E"
                 android:text="Создать тест"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"

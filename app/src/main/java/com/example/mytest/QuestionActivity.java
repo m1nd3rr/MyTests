@@ -219,15 +219,20 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void ClickOnCreateQuestion(View view) {
-
+        String updatedTitle = editText.getText().toString().trim();
+        if (updatedTitle.isEmpty()) {
+            editText.setError("Заголовок не может быть пустым");
+            return;
+        }
+        question.setTitle(updatedTitle);
         testRepository.getById(question.getTestId())
                 .thenAccept(test -> {
-                    question.setTitle(editText.getText().toString());
                     questionRepository.updateQuestion(question);
-                    Intent intent = new Intent(this,CreateTestActivity.class);
+                    Intent intent = new Intent(this, CreateTestActivity.class);
                     Select.setTest(test);
                     startActivity(intent);
                     finish();
                 });
     }
+
 }

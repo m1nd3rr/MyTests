@@ -21,7 +21,8 @@
             android:layout_marginBottom="16dp">
 
             <ImageView
-                android:id="@+id/profile_image"
+                android:onClick="onClickOpenGallery"
+                android:id="@+id/profile_image_teacher"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:layout_marginTop="20dp"
@@ -37,28 +38,28 @@
                 android:text="Владос Красава"
                 android:textColor="#000"
                 android:textSize="20sp"
-                android:layout_toEndOf="@id/profile_image"
+                android:layout_toEndOf="@id/profile_image_teacher"
                 android:layout_marginStart="16dp"
                 />
 
-            <TextView
-                android:id="@+id/userGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="68 МС"
-                android:textColor="#666"
-                android:textSize="14sp"
-                android:layout_below="@id/userName"
-                android:layout_toEndOf="@id/profile_image"
-                android:layout_marginStart="16dp" />
-
             <ImageView
+                android:onClick="ClickEditTeacher"
                 android:id="@+id/notificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline_edit_24"
                 android:layout_alignParentEnd="true"
-
+                />
+            <ImageButton
+                android:id="@+id/buttonBack"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Назад"
+                android:onClick="onBack"
+                android:src="@drawable/logout"
+                android:layout_marginLeft="330dp"
+                android:layout_marginTop="20dp"
                 />
         </RelativeLayout>
 
@@ -122,7 +123,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    >
 
                     <Button
                         android:id="@+id/buttonCreateTest"
@@ -132,7 +134,8 @@
                         android:elevation="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:onClick="ClickOnCreateTest"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:backgroundTint="#3C599E"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -151,6 +154,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:textSize="18sp"
                         android:onClick="ClickOnTestHistory"
+                        android:backgroundTint="#3C599E"
                         />
                 </LinearLayout>
             </LinearLayout>

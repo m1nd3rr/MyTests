@@ -12,7 +12,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Регистрация"
+        android:text="Авторизация"
         android:textSize="30sp"
         android:textColor="@color/black"
         android:gravity="center"
@@ -53,16 +53,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:drawableEnd="@drawable/baseline_visibility_24"/>
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Зарегистрироваться"
+        android:text="Войти"
         android:textSize="18sp"
-        android:background="@drawable/rounded_button"
-        android:textColor="@color/white"
+        android:backgroundTint="#3C599E"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
@@ -72,7 +72,7 @@
         android:id="@+id/textViewLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Уже есть аккаунт? Войдите"
+        android:text="Нет аккаунта? Зарегистрируйтесь"
         android:textColor="@color/black"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin"

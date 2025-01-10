@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,22 +48,20 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     static class QuestionViewHolder extends RecyclerView.ViewHolder {
         private TextView text, number;
-        private LinearLayout layout;
         private Context context;
-
+        private ImageView icon;
         public QuestionViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             text = itemView.findViewById(R.id.question_title);
             number = itemView.findViewById(R.id.question_number);
-            layout = itemView.findViewById(R.id.question_item);
+            icon = itemView.findViewById(R.id.notificationIcon);
             this.context = context;
         }
 
         public void bind(Question question) {
             number.setText(String.valueOf(getAdapterPosition() + 1));
             text.setText(question.getTitle());
-
-            layout.setOnClickListener(view -> {
+            icon.setOnClickListener(view -> {
                 Intent intent = new Intent(context, QuestionActivity.class);
                 Select.setQuestion(question);
                 context.startActivity(intent);

@@ -8,6 +8,15 @@
     android:padding="15dp"
     android:id="@+id/test_item_list">
 
+    <ImageView
+        android:id="@+id/notificationIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:onClick="ClickDeleteTest"
+        android:src="@drawable/baseline_delete_24"
+        />
+
     <TextView
         android:id="@+id/test_number"
         android:layout_width="30dp"

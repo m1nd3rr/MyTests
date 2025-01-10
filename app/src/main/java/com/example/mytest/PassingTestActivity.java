@@ -98,26 +98,39 @@ public class PassingTestActivity extends AppCompatActivity {
                 }
             }
         }
-        if(result){
+
+        if (result) {
             rightAnswer++;
         }
-        Toast.makeText(this, String.valueOf(result), Toast.LENGTH_LONG).show();
         if (i < questionList.size() - 1) {
             i++;
             startPassing();
         } else {
+            int totalQuestions = questionList.size();
+            int wrongAnswers = totalQuestions - rightAnswer;
+            showResultsDialog(rightAnswer, wrongAnswers);
+
             Result resultAll = new Result();
             resultAll.setUserId(Authentication.student.getId());
             resultAll.setTestId(Select.getTest().getId());
-            resultAll.setCountAnswer(answerList.size());
+            resultAll.setCountAnswer(questionList.size());
             resultAll.setCorrectAnswer(rightAnswer);
             ResultRepository resultRepository = new ResultRepository(FirebaseFirestore.getInstance());
             resultRepository.addResult(resultAll);
-            Toast.makeText(this,"Количество верных ответов: " + rightAnswer,Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this,StudentProfileActivity.class);
-            startActivity(intent);
-            finish();
         }
+    }
+
+    private void showResultsDialog(int correctAnswers, int wrongAnswers) {
+        new AlertDialog.Builder(this)
+                .setTitle("Результаты теста")
+                .setMessage("Количество верных ответов: " + correctAnswers + "\nКоличество неверных ответов: " + wrongAnswers)
+                .setPositiveButton("ОК", (dialog, which) -> {
+                    Intent intent = new Intent(this, StudentProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .setCancelable(false)
+                .show();
     }
     public void backButton(View view) {
         new AlertDialog.Builder(this)

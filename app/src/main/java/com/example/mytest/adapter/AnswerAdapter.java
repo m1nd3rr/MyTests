@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,13 +57,14 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
         private final AnswerAdapter answerAdapter;
         private final List<Answer> answerList;
         private final Question question;
-
+        private final CheckBox checkBox;
         public AnswerViewHolder(@NonNull View itemView, AnswerAdapter answerAdapter, List<Answer> answerList, Question question) {
             super(itemView);
             text = itemView.findViewById(R.id.answer_title);
             this.answerAdapter = answerAdapter;
             this.answerList = answerList;
             this.question = question;
+            this.checkBox = itemView.findViewById(R.id.dialog_answer_checkBox);
             answerRepository = new AnswerRepository(FirebaseFirestore.getInstance());
             number = itemView.findViewById(R.id.answer_item);
         }
@@ -271,36 +273,23 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
             });
         }
         private void trueFalse(Answer answer){
-            text.setOnClickListener(v -> {
-                LayoutInflater inflater = LayoutInflater.from(v.getContext());
-                View dialogView = inflater.inflate(R.layout.dialog_truefalse, null);
+            checkBox.setVisibility(View.VISIBLE);
+            checkBox.setChecked(answer.isCorrect());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    answerRepository.checkCorrectAnswer(question.getId()).thenAccept(mama ->{
+                        if (mama ) {
+                                answer.setCorrect(isChecked);
+                                answerRepository.updateAnswer(answer);
 
-                CheckBox checkBox = dialogView.findViewById(R.id.dialog_answer_checkBox);
-
-                checkBox.setChecked(answer.isCorrect());
-
-                AlertDialog dialog = new AlertDialog.Builder(v.getContext())
-                        .setTitle("Отредактируйте ответ")
-                        .setView(dialogView)
-                        .setPositiveButton("Обновить", (dialog1, which) -> {
-                            answerRepository.checkCorrectAnswer(question.getId())
-                                    .thenAccept(correct -> {
-                                        if (correct || !checkBox.isChecked()) {
-                                            answer.setCorrect(checkBox.isChecked());
-
-                                            answerRepository.updateAnswer(answer);
-                                            answerAdapter.notifyItemChanged(getAdapterPosition());
-                                        }
-                                    });
-                        })
-                        .setNegativeButton("Удалить", (dialog12, which) -> {
-                            answerList.remove(getAdapterPosition());
-                            answerRepository.deleteAnswer(answer);
-                            answerAdapter.notifyItemRemoved(getAdapterPosition());
-                        })
-                        .create();
-
-                dialog.show();
+                        }else {
+                            answer.setCorrect(false);
+                            answerRepository.updateAnswer(answer);
+                            checkBox.setChecked(false);
+                        }
+                    });
+                }
             });
         }
     }

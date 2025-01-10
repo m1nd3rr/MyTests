@@ -5,7 +5,7 @@ import com.example.mytest.model.Test;
 
 public class Select {
     private static Question question;
-    private static Test test;
+    public static Test test;
 
     public static Question getQuestion() {
         return question;

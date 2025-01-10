@@ -4,11 +4,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="44dp"
+        android:layout_height="37dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Назад"
+        android:onClick="onBackButtonClickk"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="История созданных тестов"
+        android:text="История  тестов"
         android:textColor="#000"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"

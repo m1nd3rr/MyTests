@@ -62,4 +62,18 @@ public class RoomRepository {
         });
         return future;
     }
+    public CompletableFuture<List<Room>> getAllRoomsByTestId(String testId) {
+        CompletableFuture<List<Room>> future = new CompletableFuture<>();
+        List<Room> roomList = new ArrayList<>();
+
+        testCollection.whereEqualTo("testId", testId).get().addOnCompleteListener(task -> {
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                Room room = document.toObject(Room.class);
+                roomList.add(room);
+            }
+            future.complete(roomList);
+        });
+
+        return future;
+    }
 }

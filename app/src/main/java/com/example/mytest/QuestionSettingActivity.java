@@ -8,15 +8,19 @@ import android.view.View;
 
 import com.example.mytest.auth.Select;
 import com.example.mytest.model.Question;
+import com.example.mytest.repository.QuestionRepository;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class QuestionSettingActivity extends AppCompatActivity {
 
     private Question question;
+    private QuestionRepository questionRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_setting);
+        questionRepository = new QuestionRepository(FirebaseFirestore.getInstance());
 
         question = Select.getQuestion();
     }
@@ -31,7 +35,7 @@ public class QuestionSettingActivity extends AppCompatActivity {
     public void ClickOnOneChoise(View view) {
         Intent intent = new Intent(QuestionSettingActivity.this, QuestionActivity.class);
         question.setType("single-choice");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }
@@ -39,7 +43,7 @@ public class QuestionSettingActivity extends AppCompatActivity {
     public void ClickOnMultiChoise(View view) {
         Intent intent = new Intent(QuestionSettingActivity.this, QuestionActivity.class);
         question.setType("multi-choice");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }
@@ -47,28 +51,28 @@ public class QuestionSettingActivity extends AppCompatActivity {
     public void ClickOnSort(View view){
         Intent intent = new Intent(QuestionSettingActivity.this,QuestionActivity.class);
         question.setType("sort");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }
     public  void ClickOnText(View view){
         Intent intent = new Intent(QuestionSettingActivity.this,QuestionActivity.class);
         question.setType("text");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }
     public  void ClickOnTrueFalse(View view){
         Intent intent = new Intent(QuestionSettingActivity.this,QuestionActivity.class);
         question.setType("true-false");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }
     public  void ClickOnConnect(View view){
         Intent intent = new Intent(QuestionSettingActivity.this,QuestionActivity.class);
         question.setType("connect");
-        Select.setQuestion(question);
+        Select.setQuestion(questionRepository.addQuestion(question));
         startActivity(intent);
         finish();
     }

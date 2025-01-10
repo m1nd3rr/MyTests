@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Регистрация"
+        android:text="Админ панель"
         android:textSize="24sp"
         android:textColor="@color/black"
         android:gravity="center"
@@ -21,10 +21,10 @@
         android:shadowRadius="2"/>
 
     <EditText
-        android:id="@+id/editTextTeacherFirstName"
+        android:id="@+id/loginAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Имя"
+        android:hint="login"
         android:inputType="text"
         android:textColor="@color/black"
         android:layout_marginBottom="20dp"
@@ -32,55 +32,21 @@
         android:padding="12dp"/>
 
     <EditText
-        android:id="@+id/editTextTeacherLastName"
+        android:id="@+id/paswordAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Фамилия"
+        android:hint="pasword"
         android:inputType="text"
         android:textColor="@color/black"
         android:background="@drawable/rounded_edittext"
         android:padding="12dp"
         android:layout_marginBottom="20dp"/>
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/black"
-        android:background="@drawable/rounded_edittext"
-        android:padding="12dp"
-        android:layout_marginBottom="20dp"/>
-
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Пароль"
-        android:inputType="textPassword"
-        android:drawableEnd="@drawable/baseline_visibility_24"
-        android:textColor="@color/black"
-        android:background="@drawable/rounded_edittext"
-        android:padding="12dp"
-        />
-
-
-    <TextView
-        android:id="@+id/login_text_teacher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Уже есть аккаунт?"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        android:onClick="ClickOnLoginPageTeacher"/>
-
     <Button
-        android:id="@+id/buttonSubmitTeacher"
+        android:id="@+id/buttonSubmitAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Зарегистрироваться"
+        android:text="Войти"
         android:textSize="18sp"
         android:backgroundTint="#3C599E"
         android:textColor="@color/white"

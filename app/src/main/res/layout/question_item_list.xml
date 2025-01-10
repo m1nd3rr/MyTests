@@ -7,6 +7,16 @@
     android:layout_margin="10dp"
     android:padding="15dp"
     android:id="@+id/question_item">
+
+    <ImageView
+        android:id="@+id/notificationIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_edit_24"
+        android:layout_alignParentEnd="true"
+        />
+
     <TextView
         android:id="@+id/question_number"
         android:layout_width="30dp"
@@ -16,6 +26,7 @@
         android:gravity="center">
 
     </TextView>
+
 
     <TextView
         android:id="@+id/question_title"

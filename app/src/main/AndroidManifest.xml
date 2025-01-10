@@ -20,20 +20,33 @@
         android:theme="@style/Theme.MyTest"
         tools:targetApi="31">
         <activity
+            android:name=".AllStudentsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AdminProfile"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".TestHistory"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TestsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PassingTestActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".QuestionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".QuestionSettingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -41,20 +54,30 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginStudentActivity" />
-        <activity android:name=".LoginTeacherActivity" />
-        <activity android:name=".RegisterStudentActivity" />
-        <activity android:name=".RegisterTeacherActivity" />
-        <activity android:name=".StudentProfileActivity" />
-        <activity android:name=".TeacherProfileActivity" />
-        <activity android:name=".CreateTestActivity" />
+        <activity android:name=".RegisterAdmin"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginStudentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginTeacherActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterStudentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterTeacherActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StudentProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TeacherProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CreateTestActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

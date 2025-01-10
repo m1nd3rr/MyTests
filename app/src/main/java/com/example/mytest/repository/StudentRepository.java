@@ -54,7 +54,6 @@ public class StudentRepository {
                 if (student.getId().equals(id)) future.complete(student);
             }
         });
-
         return future;
     }
     public CompletableFuture<Student> getStudentByEmail(String email) {
@@ -72,3 +71,4 @@ public class StudentRepository {
         return future;
     }
 }
+

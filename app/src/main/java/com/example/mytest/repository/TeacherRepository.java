@@ -32,8 +32,8 @@ public class TeacherRepository {
         teacherCollection.document(teacher.getId()).delete();
     }
 
-    public void updateTeacher(Teacher teacher, Teacher newTeacher) {
-        teacherCollection.document(teacher.getId()).set(newTeacher);
+    public void updateTeacher(Teacher teacher) {
+        teacherCollection.document(teacher.getId()).set(teacher);
     }
 
     public CompletableFuture<List<Teacher>> getAllTeacher() {
